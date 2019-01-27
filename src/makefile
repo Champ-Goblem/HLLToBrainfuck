@@ -5,16 +5,16 @@ IDIR =../include
 ODIR =./obj
 BDIR =./obj/build
 
-_DEPS = main.h
+_DEPS = lexer.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = main.o
+_OBJ = lexer.o main.o lexerException.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(BDIR)/ELFTools: $(OBJ)
+$(BDIR)/CBF: $(OBJ)
 	$(CC) -o $@ $^
 
 .PHONY : clean

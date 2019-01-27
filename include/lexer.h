@@ -2,13 +2,25 @@
 #include <exception>
 #include <iostream>
 #include <stdint.h>
+#include <string.h>
+#include <stdexcept>
 
 using namespace std;
 namespace lexer {
-
-}
-
-char inst[12][5] = {"pop", "push", "dup", "jump", "add", "sub", "mul", "div", "and", "or", "xor", "if"};
-
-char operands[] = {'[', ']', '(', ')', '{', '}'};
-
+    enum lexerError {
+        BAD_ARGUMENT,
+        UNDEFINED_SYMBOL
+    };
+    class lexerException : public exception {
+        private:
+        enum lexerError err;
+        int lineNo;
+        const char * msg;
+        
+        public:
+        lexerException(const char* msg_, enum lexerError err_, int lineNo_);
+        const char* getMessage() const;
+        int getLineNo() const;
+        enum lexerError getLexerError() const;
+    };
+}   
