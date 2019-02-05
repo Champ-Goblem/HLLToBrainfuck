@@ -7,6 +7,8 @@
 
 using namespace std;
 namespace lexer {
+    class lexerException;
+    lexerException* parseArguments(FILE * instream, FILE * outstream);
     enum lexerError {
         BAD_ARGUMENT,
         UNDEFINED_SYMBOL
