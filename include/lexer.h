@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdexcept>
+#include <stdlib.h>
 
 using namespace std;
 namespace lexer {
@@ -23,6 +24,6 @@ namespace lexer {
         lexerException(const char* msg_, enum lexerError err_, int lineNo_);
         const char* getMessage() const;
         int getLineNo() const;
-        enum lexerError getLexerError() const;
+        const char* getLexerError() const;
     };
 }   

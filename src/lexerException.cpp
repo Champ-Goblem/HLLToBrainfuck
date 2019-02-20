@@ -9,5 +9,12 @@ namespace lexer {
 
     const char* lexerException::getMessage() const {return msg;}
     int lexerException::getLineNo() const {return lineNo;}
-    enum lexerError lexerException::getLexerError() const {return err;}
+    const char * lexerException::getLexerError() const {
+        switch(err){
+            case lexerError::BAD_ARGUMENT :
+                return "BAD_ARGUMENT";
+            case lexerError::UNDEFINED_SYMBOL :
+                return "UNDEFINED_SYMBOL";
+        }
+    }
 }

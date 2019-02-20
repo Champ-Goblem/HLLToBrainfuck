@@ -2,6 +2,7 @@
 
 namespace lexer {
     char* getNextCodeLine(FILE* instream, FILE* outstream);
+    int getIntOperand(char* string);
     //Array of our instrcutions in our defined language
     //currently remove binary operators till I know what im doing
     char inst[12][5] = {"pop", "push", "dup", "jump", "add", "sub", "mul", "div", "if"};
@@ -80,27 +81,48 @@ namespace lexer {
             instruction[i] = buff[i + opS];
             i++;
         }
-        for (i = 0; i < instC; i++) {
-           if (strcmp(op, inst[i]) == 0) {
-                printf("Token: %d, Operator: %s, Line: %d, Arg: %s \n", i, op, lineNo, instruction);
-                if (strcmp(instOp[i], "INT") == 0) {
-                    //if the parameter is an int
-                    //if () {}
-                } else if (strcmp(instOp[i], "OP") == 0) {
-                    //if the parameter is a series of operational statements
-                } else if (strcmp(instOp[i], "") == 0 ) {
-                    //if there is no parameter
-                    if (instruction[0] != '\0') {
-                        throw lexerException("Parameter is set for ", BAD_ARGUMENT, lineNo);
-                    }
-                }
-           }
-       }
+        //can we find the current instrcution in the allowed instruction set
+        i = 0;
+        while (strcmp(op, inst[i]) != 0) {
+            i++;
+            if (i == instC - 1) {
+                throw lexerException("Operator is not defined", UNDEFINED_SYMBOL, lineNo);
+            }
+        }
+        //if symbol was not found kill the lexer
+
+
+        printf("Token: %d, Operator: %s, Line: %d, Arg: %s \n", i, op, lineNo, instruction);
+        if (strcmp(instOp[i], "INT") == 0) {
+            //if the parameter is an int
+            if (getIntOperand(instruction)) {
+                
+            } else {
+                
+            }
+        } else if (strcmp(instOp[i], "OP") == 0) {
+            //if the parameter is a series of operational statements
+        } else if (strcmp(instOp[i], "") == 0 ) {
+            //if there is no parameter
+            if (instruction[0] != '\0') {
+                throw lexerException("Parameter is set for operator", BAD_ARGUMENT, lineNo);
+            }
+        }
 
     }
 
-    bool checkInteger(char* string) {
-        //if()
+    int getIntOperand(char* string) {
+        int i;
+        while(isdigit(string[i])) {
+            i++;
+        }
+        if (i == 0) {
+            throw lexerException("No operand provided", BAD_ARGUMENT, lineNo);
+        }
+        char * end;
+        long int operand = strtol(string, &end, 10);
+        //printf("%i", operand);
+        return operand;
     }
 
 }
